@@ -19,7 +19,7 @@ df=df[['Adj. Close','HL_PCT','PCT_change','Adj. Volume']]
 forecast_col='Adj. Close'
 df.fillna(-99999,inplace=True)
 
-forecast_out=int(math.ceil(0.01*len(df)))
+forecast_out=int(math.ceil(0.1*len(df)))
 #print(forecast_out)
 
 df['label']=df[forecast_col].shift(-forecast_out)
@@ -28,7 +28,7 @@ df['label']=df[forecast_col].shift(-forecast_out)
 X=np.array(df.drop(['label'],1))
 X=preprocessing.scale(X)
 X_lately=X[-forecast_out:]
-X=X[:-forecast_out:]
+X=X[:-forecast_out]
 
 
 df.dropna(inplace=True)
@@ -39,7 +39,7 @@ X_train, X_test, y_train, y_test=cross_validation.train_test_split(X,y,test_size
 # clf=LinearRegression(n_jobs=-1)
 # clf.fit(X_train,y_train)
 # with open('linearregression.pickle','wb') as f:
-#     pickle.dump(clf,f)
+#      pickle.dump(clf,f)
 
 pickle_in=open('linearregression.pickle','rb')
 clf=pickle.load(pickle_in)
